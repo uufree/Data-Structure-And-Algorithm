@@ -11,28 +11,25 @@
 #include<functional>
 #include<iostream>
 
-template<typename T>
 struct BinaryTreeNode
 {
-    T data;
-    struct BinaryTreeNode<T>* leftChild;
-    struct BinaryTreeNode<T>* rightChild;
+    int data;
+    struct BinaryTreeNode* leftChild;
+    struct BinaryTreeNode* rightChild;
 
     BinaryTreeNode() : leftChild(nullptr),rightChild(nullptr)
     {};
     
-    BinaryTreeNode(const T& data_) : data(data_),leftChild(nullptr),rightChild(nullptr)
+    BinaryTreeNode(const int& data_) : data(data_),leftChild(nullptr),rightChild(nullptr)
     {};
 };
 
 
-template<typename T>
 class BinaryTree
 {
-    typedef std::function<void(T*)> CallBack;
+    typedef std::function<void(BinaryTreeNode*)> CallBack;
     
     public:
-        virtual ~BinaryTree();
         virtual bool empty() const = 0;
         virtual int size() const = 0;
         virtual int hight() const = 0; 

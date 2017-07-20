@@ -7,48 +7,54 @@
 
 #include"LinkedBinaryTree.h"
 #include<deque>
+#include<cmath>
 
-template<typename T>
-LinkedBinaryTree<T>::LinkedBinaryTree() : boot(nullptr),   theTreeSize(0),theHigh(0)
+LinkedBinaryTree::LinkedBinaryTree() : 
+    boot(nullptr),   
+    theTreeSize(0),
+    theHigh(0)
 {};
 
-template<typename T>
-LinkedBinaryTree<T>::LinkedBinaryTree(const LinkedBinaryTree<T>& lhs) : theTreeSize(lhs.theTreeSize),theHigh(lhs.theHigh)
+LinkedBinaryTree::LinkedBinaryTree(const LinkedBinaryTree& lhs) : 
+    theTreeSize(lhs.theTreeSize),
+    theHigh(lhs.theHigh)
 {
     boot = theCopy(lhs.boot);
 }
 
-template<typename T>
-LinkedBinaryTree<T>::LinkedBinaryTree(LinkedBinaryTree&& lhs) : boot(std::move(lhs.boot)),theTreeSize(lhs.theTreeSize),theHigh(lhs.theHigh)
+LinkedBinaryTree::LinkedBinaryTree(LinkedBinaryTree&& lhs) :   
+    boot(std::move(lhs.boot)),
+    theTreeSize(lhs.theTreeSize),
+    theHigh(lhs.theHigh)
 {}
 
-template<typename T>
-LinkedBinaryTree<T>& LinkedBinaryTree<T>::operator=(const LinkedBinaryTree<T>& lhs)
+LinkedBinaryTree& LinkedBinaryTree::operator=(const LinkedBinaryTree& lhs)
 {
-    postOrder([this](BinaryTreeNode<T>* ptr){delete ptr;});
+    postOrder([this](BinaryTreeNode* ptr){delete ptr;});
     theTreeSize = lhs.theTreeSize;
     theHigh = lhs.theHigh;
     boot = theCopy(lhs.boot);
+
+    return *this;
 }
 
-template<typename T>
-LinkedBinaryTree<T>& LinkedBinaryTree<T>::operator=(LinkedBinaryTree<T>&& lhs)
+LinkedBinaryTree& LinkedBinaryTree::operator=(LinkedBinaryTree&& lhs)
 {
-    postOrder([this](BinaryTreeNode<T>* ptr){delete ptr;});
+    postOrder([this](BinaryTreeNode* ptr){delete ptr;});
     theTreeSize = lhs.theTreeSize;
     theHigh = lhs.theHigh;
     boot = std::move(lhs.boot);
+
+    return *this;
 }
 
-template<typename T>
-LinkedBinaryTree<T>::~LinkedBinaryTree()
+LinkedBinaryTree::~LinkedBinaryTree()
 {
-    postOrder([this](BinaryTreeNode<T>* ptr){delete ptr;});
+    postOrder([this](BinaryTreeNode* ptr){delete ptr;});
 }
 
 
-template<typename T>
-void LinkedBinaryTree<T>::thePerOrder(BinaryTreeNode<T>* ptr)
+void LinkedBinaryTree::thePerOrder(BinaryTreeNode* ptr)
 {
     if(ptr != nullptr)
     {
@@ -58,8 +64,7 @@ void LinkedBinaryTree<T>::thePerOrder(BinaryTreeNode<T>* ptr)
     }
 }
 
-template<typename T>
-void LinkedBinaryTree<T>::theInOrder(BinaryTreeNode<T>* ptr)
+void LinkedBinaryTree::theInOrder(BinaryTreeNode* ptr)
 {
     if(ptr != nullptr)
     {
@@ -69,8 +74,7 @@ void LinkedBinaryTree<T>::theInOrder(BinaryTreeNode<T>* ptr)
     }
 }
 
-template<typename T>
-void LinkedBinaryTree<T>::thePostOrder(BinaryTreeNode<T>* ptr)
+void LinkedBinaryTree::thePostOrder(BinaryTreeNode* ptr)
 {
     if(ptr != nullptr)
     {
@@ -80,10 +84,9 @@ void LinkedBinaryTree<T>::thePostOrder(BinaryTreeNode<T>* ptr)
     }
 }
 
-template<typename T>
-void LinkedBinaryTree<T>::theLevelOrder(BinaryTreeNode<T>* ptr)
+void LinkedBinaryTree::theLevelOrder(BinaryTreeNode* ptr)
 {
-    std::deque<BinaryTreeNode<T>*> nodeList;
+    std::deque<BinaryTreeNode*> nodeList;
     nodeList.push_back(ptr);
 
     while(ptr != nullptr)
@@ -99,41 +102,54 @@ void LinkedBinaryTree<T>::theLevelOrder(BinaryTreeNode<T>* ptr)
     }
 }
 
-template<typename T>
-BinaryTreeNode<T>* LinkedBinaryTree<T>::theCopy(BinaryTreeNode<T>* ptr)
+BinaryTreeNode* LinkedBinaryTree::theCopy(BinaryTreeNode* ptr)
 {
-    BinaryTreeNode<T>* newNode;
-
-    if(ptr != nullptr)
+    BinaryTreeNode* newNode;
+    if(ptr == nullptr)
         return nullptr;
     else
     {
-        newNode = new BinaryTreeNode<T>;
-        newNode->data = ptr->data;
+        newNode = new BinaryTreeNode(ptr->data);
         newNode->leftChild = theCopy(ptr->leftChild);
         newNode->rightChild = theCopy(ptr->rightChild);
         return newNode;
     }
 }
 
+int LinkedBinaryTree::theHeight(BinaryTreeNode* node)
+{
+    if(node == nullptr)
+        return 0;
+    
+    int hl = theHeight(node->leftChild);
+    int hr = theHeight(node->rightChild);
+    
+    if(hl > hr)
+        return ++hl;
+    else
+        return ++hr;
+}
 
+int LinkedBinaryTree::height()
+{
+    return theHeight(boot);
+}
 
+void LinkedBinaryTree::init()
+{   
+    std::vector<BinaryTreeNode*> binaryVec;
+    for(int i=0;i<7;++i)
+        binaryVec.push_back(new BinaryTreeNode(i));
+    
+    binaryVec[0]->leftChild = binaryVec[1];
+    binaryVec[0]->rightChild = binaryVec[2];
 
+    binaryVec[1]->leftChild = binaryVec[3];
+    binaryVec[1]->rightChild = binaryVec[4];
+    binaryVec[2]->leftChild = binaryVec[5];
+    binaryVec[2]->rightChild = binaryVec[6];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    boot = binaryVec[0]; 
+}
 
 

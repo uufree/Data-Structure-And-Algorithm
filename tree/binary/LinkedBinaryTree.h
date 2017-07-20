@@ -8,19 +8,19 @@
 #ifndef _LINKEDBINARYTREE_H
 #define _LINKEDBINARYTREE_H
 
+#include<vector>
 #include"BinaryTree.h"
 
-template<typename T>
-class LinkedBinaryTree : public BinaryTree<T>
+class LinkedBinaryTree : public BinaryTree
 {
-    typedef std::function<void(BinaryTreeNode<T>*)> CallBack;
+    typedef std::function<void(BinaryTreeNode*)> CallBack;
 
     public:
         LinkedBinaryTree();
-        LinkedBinaryTree(const LinkedBinaryTree<T>& lhs);
-        LinkedBinaryTree(LinkedBinaryTree<T>&& lhs);
-        LinkedBinaryTree<T>& operator=(const LinkedBinaryTree<T>& lhs);
-        LinkedBinaryTree<T>& operator=(LinkedBinaryTree<T>&& lhs);
+        LinkedBinaryTree(const LinkedBinaryTree& lhs);
+        LinkedBinaryTree(LinkedBinaryTree&& lhs);
+        LinkedBinaryTree& operator=(const LinkedBinaryTree& lhs);
+        LinkedBinaryTree& operator=(LinkedBinaryTree&& lhs);
         ~LinkedBinaryTree();
 
         bool empty() const override
@@ -32,47 +32,47 @@ class LinkedBinaryTree : public BinaryTree<T>
         int hight() const override
         {return theHigh;};
         
-        void perOrder(const CallBack& cb = std::bind(&LinkedBinaryTree::visit,std::placeholders::_1)) override
+        void perOrder(const CallBack& cb) override
         {
             callback = cb;
             thePerOrder(boot);
         }
         
-        void inOrder(const CallBack& cb = std::bind(&LinkedBinaryTree::visit,std::placeholders::_1)) override
+        void inOrder(const CallBack& cb) override
         {
             callback = cb;
             theInOrder(boot);
         }
         
-        void postOrder(const CallBack& cb = std::bind(&LinkedBinaryTree::visit,std::placeholders::_1)) override
+        void postOrder(const CallBack& cb) override
         {
             callback = cb;
             thePostOrder(boot);
         }
 
-        void levelOrder(const CallBack& cb = std::bind(&LinkedBinaryTree::visit,std::placeholders::_1)) override
+        void levelOrder(const CallBack& cb) override
         {
             callback = cb;
             theLevelOrder(boot);
         }
-    
-    private:
-        void thePerOrder(BinaryTreeNode<T>* ptr);
-        void theInOrder(BinaryTreeNode<T>* ptr);
-        void thePostOrder(BinaryTreeNode<T>* ptr);
-        void theLevelOrder(BinaryTreeNode<T>* ptr);
-        BinaryTreeNode<T>* theCopy(BinaryTreeNode<T>* ptr);
-        
-        void visit(const BinaryTreeNode<T>& lhs)
-        {std::cout << lhs->data << std::endl;}
+
+        void init();
+        int height();
 
     private:
-        BinaryTreeNode<T>* boot;
+        void thePerOrder(BinaryTreeNode* ptr);
+        void theInOrder(BinaryTreeNode* ptr);
+        void thePostOrder(BinaryTreeNode* ptr);
+        void theLevelOrder(BinaryTreeNode* ptr);
+        BinaryTreeNode* theCopy(BinaryTreeNode* ptr);
+        int theHeight(BinaryTreeNode* node);
+        
+
+    private:
+        BinaryTreeNode* boot;
         int theTreeSize;
         int theHigh;
         CallBack callback;
 };
-
-
 
 #endif
