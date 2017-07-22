@@ -31,7 +31,6 @@ class MaxPriorityQueue : public PriorityQueue
         void pop() override;
         void push(const int& lhs) override;
         void init(int* heap_,int size);
-        void init(const std::vector<int>& vec);
 
     private:
         int* heap;

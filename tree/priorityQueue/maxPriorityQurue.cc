@@ -99,14 +99,30 @@ void MaxPriorityQueue::push(const int& lhs)
     heap[currentNode] = lhs;
 }
 
-void MaxPriorityQueue::init(int* heap,int size)
+void MaxPriorityQueue::init(int* heap_,int size)
 {
-    
-}
+    delete [] heap;
+    heap = heap_;
+    heapSize = size;
 
-void MaxPriorityQueue::init(const std::vector<int>& vec)
-{
+    for(int root=heapSize/2;root>=1;--root)
+    {
+        int rootElement = heap[root];
+        int child = root * 2;
+        
+        while(child != heapSize)
+        {
+            if(child<heapSize && heap[child]<heap[child+1])
+                child++;
+            if(rootElement >= heap[child])
+                break;
 
+            heap[child/2] = heap[child];
+            child *= 2;
+        }
+
+        heap[child/2] = rootElement;
+    }
 }
 
 
