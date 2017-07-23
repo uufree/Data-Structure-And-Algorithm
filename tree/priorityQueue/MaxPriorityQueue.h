@@ -26,15 +26,17 @@ class MaxPriorityQueue : public PriorityQueue
 
         int size() const override
         {return heapSize;};
-
+            
         const int& top() const override;
         void pop() override;
         void push(const int& lhs) override;
-        void init(int* heap_,int size);
+        void init(int* heap_,int heapSize_,int dataSize_);
+        void show() const;
 
     private:
         int* heap;
         int heapSize;
+        int dataSize;
 };
     
 
