@@ -22,12 +22,7 @@ void merge(int* array,int p,int q,int r)
         array2[j] = array[q+j+1];
 
     array1[n1] = array2[n2] = 99999;
-/*    
-    for(int i=0;i<6;++i)
-        std::cout << array1[i] << std::endl;
-    for(int i=0;i<6;++i)
-        std::cout << array2[i] << std::endl;
-*/    
+    
     int i = 0,j = 0;
     for(;p<=r;++p)
     {
@@ -67,8 +62,6 @@ int main(int argc,char** argv)
 
     mergeSort(array,0,9);
     
-//    merge(array,0,4,9);
-
     for(int i=0;i<10;++i)
         std::cout << array[i] << " ";
     std::cout << std::endl;
