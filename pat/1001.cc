@@ -12,7 +12,7 @@ int main(int argc,char** argv)
     int number;
     std::cin >> number;
 
-    if(number > 1000 || number <= 0)
+    if(number > 1000 || number < 0)
         return 0;
     
     int size = 0;

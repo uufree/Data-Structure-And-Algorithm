@@ -12,20 +12,24 @@ void merge(int* array,int p,int q,int r)
     int n1 = q - p + 1;
     int n2 = r - q;
 
-    int* array1 = new int[n1];
-    int* array2 = new int[n2];
+    int* array1 = new int[n1+1];
+    int* array2 = new int[n2+1];
 
     for(int i=0;i<n1;++i)
-        array1[i] = array[p+i-1];
+        array1[i] = array[p+i];
 
     for(int j=0;j<n2;++j)
-        array2[j] = array[q+j];
+        array2[j] = array[q+j+1];
 
-    array1[n1+1] = array2[n2+1] = 99999;
-    
+    array1[n1] = array2[n2] = 99999;
+/*    
+    for(int i=0;i<6;++i)
+        std::cout << array1[i] << std::endl;
+    for(int i=0;i<6;++i)
+        std::cout << array2[i] << std::endl;
+*/    
     int i = 0,j = 0;
-
-    for(;p<r;++p)
+    for(;p<=r;++p)
     {
         if(array1[i] <= array2[j])
         {
@@ -61,8 +65,10 @@ int main(int argc,char** argv)
         std::cout << array[i] << " ";
     std::cout << std::endl;
 
-    mergeSort(array,0,10);
+    mergeSort(array,0,9);
     
+//    merge(array,0,4,9);
+
     for(int i=0;i<10;++i)
         std::cout << array[i] << " ";
     std::cout << std::endl;
