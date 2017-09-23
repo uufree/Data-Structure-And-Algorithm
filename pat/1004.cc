@@ -21,14 +21,14 @@ int main(int argc,char** argv)
 
     std::string name,number;
     int size;
+    std::string str;
 
     std::cin >> size;
     
     for(int i=0;i<size;++i)
     {
-        std::cin >> name;
-        std::cin >> number;
-        std::cin >> size;
+        std::cin >> str;
+        
 
         if(name.size() > 10 || number.size() > 10 || size < 0 || size > 100)
             return 0;
