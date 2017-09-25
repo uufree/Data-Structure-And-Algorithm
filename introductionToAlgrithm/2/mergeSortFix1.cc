@@ -76,44 +76,9 @@ int main(int argc,char** argv)
 
     mergeSort(array,0,9);
     
-//    merge(array,0,4,9);
-
     for(int i=0;i<10;++i)
         std::cout << array[i] << " ";
     std::cout << std::endl;
     
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
