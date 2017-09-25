@@ -1,57 +1,47 @@
 #!/usr/bin/env python3
 # coding=utf-8
 
-def findCorssSubbary(array,low,mid,right):
-    left-sm = -9999
+def findCorssSubbary(array,low,mid,hight):
+    leftSum = -9999
     sm = 0
-    for i in range(mid-1,low-1,-1):
+    for i in range(mid,low-1,-1):
         sm = sm + array[i]
-        if sm > left-sm:
-            left-sm = sm
-            mx-left = i
+        if sm > leftSum:
+            leftSum = sm
+            maxLeft = i
 
-    right-sm = -9999
+    rightSum = -9999
     sm = 0
-    for i in range(mid+1,hiht):
+    for i in range(mid+1,hight+1,1):
         sm = sm + array[i]
-        if sm > right-sm:
-            right-sm = sm
-            mx-right = i
+        if sm > rightSum:
+            rightSum = sm
+            maxRight = i
 
-    return mx-left,mx-right,left-sm + right-sm
+    return maxLeft,maxRight,leftSum+rightSum
 
 def findMaxSubbary(array,low,hight):
     if hight == low:
         return low,hight,array[low]
     else:
-        mid = (low + hight) / 2
-        left-low,left-hight,left-sm = findMaxSubbary(array,low,mid)
-        right-low,right-hight,rihgt-sm = findMaxSubbary(array,mid+1,hight)
-        cross-low,closs-hight,closs-sm = findCorssSubbary(array,low,mid,hight)
+        mid = (low + hight) // 2
+        leftLow,leftHight,leftSum = findMaxSubbary(array,low,mid)
+        rightLow,rightHight,rightSum = findMaxSubbary(array,mid+1,hight)
+        crossLow,crossHight,crossSum = findCorssSubbary(array,low,mid,hight)
 
-        if left-sm >= right-sm && left-sm >= cross-sm:
-            return left-low,left-hight,left-sm
-        elif right-sm >= left-sm && right-sm >= cross-sm:
-            return right-low,right-hight,right-sm
+        if leftSum >= rightSum & leftSum >= crossSum:
+            return leftLow,leftHight,leftSum
+        elif rightSum >= leftSum & rightSum >= crossSum:
+            return rightLow,rightHight,rightSum
         else:
-            return cross-low,cross-hight,cross-sm
+            return crossLow,crossHight,crossSum
 
 
 array_ = [13,-3,-25,20,-3,-16,-23,18,20,-7,12,-5,-22,15,-4,7]
 
-low,hiht,sm = findMaxSubbary(array_,0,15)
+low,hight,sm = findMaxSubbary(array_,0,15)
 
 print("low: ",low)
 print("hight: ",hight)
 print("sum: ",sm)
-
-
-
-
-
-
-
-
-
-
 
