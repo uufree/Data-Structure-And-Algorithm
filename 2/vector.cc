@@ -35,6 +35,47 @@ void Vector<T>::copyFrom(T const* array,int low,int hight)
 
 template<typename T>
 void Vector<T>::expand()
+{
+    if(_size < _capacity)
+        return;
+    
+    if(_capacity < DEFAULT_SIZE)
+        _capacity = DEFAULT_SIZE;
+
+    T* newElem = new T[_capacity<<=1];
+    for(int i=0;i<_size;++i)
+        newElem[i] = _elem[i];
+
+    delete [] _elem;
+    _elem = newElem;
+}
+
+template<typename T>
+void Vector<T>::shrink()
+{
+    if(_capacity < (DEFAULT_SIZE << 1))
+        return;
+
+    if((_size << 2) > _capacity)
+        return;
+
+    T* newElem = new T[_capacity>>=1];
+
+    for(int i=0;i<_size;++i)
+        newElem[i] = _elem[i];
+
+    delete [] _elem;
+    _elem = newElem;
+}
+
+
+
+
+
+
+
+
+
 
 
 
