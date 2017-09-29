@@ -8,6 +8,9 @@
 #ifndef _VECTOR_H
 #define _VECTOR_H
 
+#include<stdlib.h>
+#include<iostream>
+
 #define DEFAULT_SIZE 10
 
 template<typename T>
@@ -49,10 +52,10 @@ class Vector
 //可写接口
         T& operator[](int rank) const;
         Vector<T>& operator=(const Vector<T>& elem);
-        T remove(int rank);
+        int remove(int rank);
         int remove(int low,int hight);
-        int insert(int rank,const T& elem);
-        int insert(const T& elem);
+        void insert(int rank,const T& elem);
+        void insert(const T& elem);
         void sort(int low,int hight);
         void sort();
         void unsort();
@@ -64,6 +67,12 @@ class Vector
         template<typename VST> void traverse(VST&); //函数对象
 };
 
+template<typename T>
+void permute(Vector<T>& vec)
+{
+    for(int i=vec.size();i>0;--i)
+        std::swap(vec[i-1],vec[rand()%i]);
+}
 
 
 
