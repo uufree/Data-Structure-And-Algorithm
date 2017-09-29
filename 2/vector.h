@@ -60,8 +60,8 @@ class Vector
         void sort();
         void unsort();
         void unsort(int low,int hight);
-        void deduplicate(); //无序去重
-        void uniquify();    //有序去重
+        int deduplicate(); //无序去重
+        int uniquify();    //有序去重
 
         void traverse(void (*)(T&));
         template<typename VST> void traverse(VST&); //函数对象

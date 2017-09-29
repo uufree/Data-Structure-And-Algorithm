@@ -142,5 +142,83 @@ void Vector<T>::insert(int rank,const T& elem)
 template<typename T>
 int Vector<T>::remove(int rank)
 {
-     
+    for(int i=rank;i<_size;++i)
+        _elem[i] = _elem[i+1];
+    
+    _size -= 1;
+    return 1;
 }
+
+template<typename T>
+int Vector<T>::remove(int low,int hight)
+{
+    if(low == hight)
+        return 0;
+
+    if(low > hight)
+        return -1;
+
+    while(hight < _size)
+        _elem[low++] = _elem[hight++];
+
+    return  hight - low; 
+}
+
+template<typename T>
+int Vector<T>::deduplicate()
+{
+    int oldSize = _size;
+
+    int p;
+    for(int i=0;i<_size;++i)
+        (p=find(_elem[i] < 0)) ? ++i : remove(p);
+
+    return oldSize - _size;
+}
+
+template<typename T>
+void Vector<T>::traverse(void (*function)(T&))
+{
+    for(int i=0;i<_size;++i)
+        function(_elem[i]);
+}
+
+template<typename T>
+template<typename VST>
+void Vector<T>::traverse(VST& function)
+{
+    for(int i=0;i<_size;++i)
+        function(_elem[i]);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
