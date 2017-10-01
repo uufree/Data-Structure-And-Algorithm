@@ -191,16 +191,109 @@ void Vector<T>::traverse(VST& function)
         function(_elem[i]);
 }
 
+template<typename T>
+int Vector<T>::uniquify()
+{
+    int i = 0,j = 0;
+
+    while(++j < _size)
+    {
+        if(_elem[i] != _elem[j])
+            _elem[++i] = _elem[j];
+    }
+    
+    _size = ++i;
+    shrink();
+    return j - i;
+}
+
+template<typename T>
+int Vector<T>::search(const T& elem,int low,int hight) const
+{
+    return binSearch(_elem,elem,low,hight);  
+}
+
+template<typename T>
+int Vector<T>::search(const T& elem) const
+{
+    return search(elem,0,_size);
+}
+
+template<typename T>
+void Vector<T>::sort(int low,int hight)
+{
+    switch(rand() % 5)
+    {
+        case 1:
+            bubbleSort(low,hight);
+            break;
+        case 2:
+            selectSort(low,hight);
+            break;
+        case 3:
+            mergeSort(low,hight);
+            break;
+        case 4:
+            heapSort(low,hight);
+            break;
+        case 5:
+            quickSort(low,hight);
+            break;
+    }
+}
+
+template<typename T>
+void Vector<T>::sort()
+{
+    sort(0,_size);
+}
 
 
+template<typename T>
+void Vector<T>::bubbleSort(int low,int hight)
+{
+    for(int i=low;i<hight;++i)
+    {
+        for(int j=low+1;j<hight;++j)
+        {
+            if(_elem[i] > _elem[j])
+                std::swap(_elem[i],_elem[j]);
+        }
+    }
+}
 
+template<typename T>
+void Vector<T>::selectSort(int low,int hight)
+{
+    int temp;
+    for(int i=low;i<hight;++i)
+    {
+        for(int j=i;j<hight;++j)
+        {
+            if(_elem[i] >= _elem[j])
+                temp = j;
+        }
+        std::swap(_elem[i],_elem[temp]);
+    }
+}
 
+template<typename T>
+void Vector<T>::mergeSort(int low,int hight)
+{
+    if(low < hight)
+    {
+        int mid = (low + hight) >> 1;
+        mergeSort(low,mid);
+        mergeSort(mid+1,hight);
+        merge(low,mid,hight);
+    }
+}
 
+template<typename T>
+void Vector<T>::merge(int low,int mid,int hight)
+{
 
-
-
-
-
+}
 
 
 

@@ -24,12 +24,11 @@ class Vector
         void copyFrom(T const* array,int low,int hight);
         void expand(); 
         void shrink();
-        bool bubble();  //扫描交换
         int max(int low,int hight);
-        void bubbleSort();  //冒泡排序
-        void selectSort();
-        void mergeSort();
-        void merge();
+        void bubbleSort(int low,int hight);  //冒泡排序
+        void selectSort(int low,int hight);
+        void mergeSort(int low,int hight);
+        void merge(int low,int mid,int hight);
         int partition(int low,int hight);
         void quickSort(int low,int hight);
         void heapSort(int low,int hight);
@@ -48,6 +47,8 @@ class Vector
         bool isSort() const;
         int find(const T& elem) const;
         int find(const T& elem,int low,int hight) const;
+        int search(const T& elem) const;
+        int search(const T& elem,int low,int right) const;
 
 //可写接口
         T& operator[](int rank) const;
@@ -74,7 +75,15 @@ void permute(Vector<T>& vec)
         std::swap(vec[i-1],vec[rand()%i]);
 }
 
-
-
+template<typename T>
+int binSearch(const T* array,const T& elem,int low,int hight)
+{
+    while(low < hight)
+    {
+        int mid = (low + hight) >> 1;
+        (elem < array[mid]) ? hight = mid : low = mid;
+    }
+    return (elem == array[low]) ? low : -1;
+}
 
 #endif
