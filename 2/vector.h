@@ -24,14 +24,14 @@ class Vector
         void copyFrom(T const* array,int low,int hight);
         void expand(); 
         void shrink();
-        int max(int low,int hight);
-        void bubbleSort(int low,int hight);  //冒泡排序
-        void selectSort(int low,int hight);
-        void mergeSort(int low,int hight);
-        void merge(int low,int mid,int hight);
-        int partition(int low,int hight);
-        void quickSort(int low,int hight);
-        void heapSort(int low,int hight);
+        void bubbleSort(int low,int hight);     //冒泡排序
+        void selectSort(int low,int hight);     //选择排序
+        void mergeSort(int low,int hight);      //归并排序
+        void merge(int low,int mid,int hight);      
+//未实现        
+        int partition(int low,int hight);       //轴点构造算法
+        void quickSort(int low,int hight);      //快速排序
+        void heapSort(int low,int hight);       //堆排序
     
     public:
         Vector(int capacity = DEFAULT_SIZE,T elem = 0);
@@ -42,9 +42,8 @@ class Vector
         ~Vector();
 
 //只读接口
-        int size() const;
-        bool empty() const;
-        bool isSort() const;
+        int size() const {return _size;};
+        bool empty() const {return _size == 0;};
         int find(const T& elem) const;
         int find(const T& elem,int low,int hight) const;
         int search(const T& elem) const;
