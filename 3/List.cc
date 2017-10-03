@@ -21,9 +21,56 @@ void List<T>::init()
 }
 
 template<typename T>
+void List<T>::copyNodes(const ListNode<T>* pos,int size)
+{
+    init();
+    while(size--)
+    {
+        insertAsLast(pos->data);
+        pos = pos->_next;
+    }
+}
+
+
+template<typename T>
 void List<T>::clear()
 {
-    
+    while(_size--)
+    {
+        remove(_head->next);    
+    }
+}
+
+template<typename T>
+List<T>::List()
+{
+    init();
+}
+
+template<typename T>
+List<T>::List(List<T> const& list)
+{
+    copyNodes(list.first(),list.size());
+}
+
+template<typename T>
+List<T>::List(List<T> const& list,int pos,int size)
+{
+    copyNodes(list[pos],size);
+}
+
+template<typename T>
+List<T>::List(const ListNode<T>* pos,int size)
+{
+    copyNodes(pos,size);
+}
+
+template<typename T>
+List<T>::~List()
+{
+    clear();
+    delete _head;
+    delete _tail;
 }
 
 template<typename T>
@@ -36,6 +83,12 @@ template<typename T>
 inline ListNode<T>* List<T>::last() const
 {
     return _tail->prev;
+}
+
+template<typename T>
+inline bool List<T>::vaild(ListNode<T>* pos) const
+{
+    return pos && (pos != _head) && (pos != _tail);
 }
 
 template<typename T>
@@ -77,14 +130,14 @@ ListNode<T>* List<T>::find(T const& data) const
 }
 
 template<typename T>
-ListNode<T>* List<T>::insertAsHead(T const& data)
+ListNode<T>* List<T>::insertAsFirst(T const& data)
 {
     _size++;
     return _head->insertAsNext(data); 
 }
 
 template<typename T>
-ListNode<T>* List<T>::insertAsTail(T const& data)
+ListNode<T>* List<T>::insertAsLast(T const& data)
 {
     _size++;
     return _tail->insertAsPrev(data);
@@ -102,6 +155,17 @@ ListNode<T>* List<T>::insertNext(ListNode<T>* pos,T const& data)
 {
     ++_size;
     pos->insertAsNext(data);
+}
+
+template<typename T>
+T List<T>::remove(ListNode<T>* pos)
+{
+    T data = pos->_data;
+    pos->_prev->_next = pos->_next;
+    pos->_next->prev = pos->_prev;
+    delete pos;
+    --_size;
+    return data;
 }
 
 

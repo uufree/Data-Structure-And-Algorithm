@@ -38,7 +38,7 @@ class List
         T& operator[](int pos);
         inline ListNode<T>* first() const;
         inline ListNode<T>* last() const;
-        inline bool vaild(ListNode<T>* pos);   //查询位置是否合法
+        inline bool vaild(ListNode<T>* pos) const;   //查询位置是否合法
         ListNode<T>* find(const ListNode<T>* pos,int steps,T const& data) const;
         ListNode<T>* find(T const& data) const;     //无序查找data的位置
         ListNode<T>* search(T const& data) const;   //有序查找data的位置
@@ -49,8 +49,8 @@ class List
         ListNode<T>* min() const;
     
     //可写接口
-        ListNode<T>* insertAsHead(T const& data);
-        ListNode<T>* insertAsTail(T const& data);
+        ListNode<T>* insertAsFirst(T const& data);
+        ListNode<T>* insertAsLast(T const& data);
         ListNode<T>* insertPrev(ListNode<T>* pos,T const& data);
         ListNode<T>* insertNext(ListNode<T>* pos,T const& data);
         T remove(ListNode<T>* pos);
