@@ -19,7 +19,7 @@ class List
         void init();
         void clear();
         void copyNodes(const ListNode<T>* pos,int size);
-        void merge(ListNode<T>* pos,int size,List<T>& list,ListNode<T>* pos2,int size2);
+        void merge(ListNode<T>* pos,int size,ListNode<T>* pos2,int size2);
         void mergeSort(ListNode<T>* pos,int size);
         void selectSort(ListNode<T>* pos,int size);
         void insertSort(ListNode<T>* pos,int size);
@@ -42,9 +42,9 @@ class List
         ListNode<T>* find(const ListNode<T>* pos,int steps,T const& data) const;
         ListNode<T>* find(T const& data) const;     //无序查找data的位置
         ListNode<T>* search(T const& data) const;   //有序查找data的位置
-        ListNode<T>* search(const ListNode<T>* pos,int steps,T const& data);
-        ListNode<T>* max(const ListNode<T>* pos1,const ListNode<T>* pos2) const;
-        ListNode<T>* min(const ListNode<T>* pos1,const ListNode<T>* pos2) const;
+        ListNode<T>* search(ListNode<T>* pos,int steps,T const& data) const;
+        ListNode<T>* max(ListNode<T>* pos1,int size) const;
+        ListNode<T>* min(ListNode<T>* pos1,int size) const;
         ListNode<T>* max() const;
         ListNode<T>* min() const;
     
