@@ -32,13 +32,14 @@ class List
         ~List();
 
     //只读接口
-        inline int size() const;
-        inline bool empty() const;
+        inline int size() const{return _size;};
+        inline bool empty() const {return _size == 0;};
         const T& operator[](int pos) const;
         T& operator[](int pos);
-        inline ListNode<T>* first() const;
-        inline ListNode<T>* last() const;
-        inline bool vaild(ListNode<T>* pos) const;   //查询位置是否合法
+        inline ListNode<T>* first() const {return _head->_next;};
+        inline ListNode<T>* last() const {return _tail->_prev;};
+        inline bool vaild(ListNode<T>* pos) const {return pos && (pos != _head) && (pos != _tail);};   //查询位置是否合法
+        
         ListNode<T>* find(const ListNode<T>* pos,int steps,T const& data) const;
         ListNode<T>* find(T const& data) const;     //无序查找data的位置
         ListNode<T>* search(T const& data) const;   //有序查找data的位置
