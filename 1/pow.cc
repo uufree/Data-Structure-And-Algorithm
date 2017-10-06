@@ -15,9 +15,26 @@ int pow(int n,int m)
         return pow(n,m-1) * n;
 }
 
+int powFix2(int n,int m)
+{
+    int result = 1;
+    int fix = n;
+
+    while(m)
+    {
+        if(m & 1)
+            result *= fix;
+        m >>= 1;
+        fix *= fix;
+    }
+
+    return result;
+}
+
 int main(int argc,char** argv)
 {
-    std::cout << pow(10,2) << std::endl;
+    for(int i=0;i<1000000;++i)
+        std::cout << powFix2(6,3) << std::endl;
 
     return 0;
 }
