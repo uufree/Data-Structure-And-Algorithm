@@ -9,9 +9,9 @@
 
 void merge(int* array,int p,int q,int r)
 {
-    int n1 = q - p + 1;
+    int n1 = q - p; 
     int n2 = r - q;
-
+    
     int* array1 = new int[n1];
     int* array2 = new int[n2];
 
@@ -19,37 +19,36 @@ void merge(int* array,int p,int q,int r)
         array1[i] = array[p+i];
 
     for(int j=0;j<n2;++j)
-        array2[j] = array[q+j+1];
-   
+        array2[j] = array[q+j];
+
     int i = 0,j = 0;
     for(;p<=r;++p)
     {
-
+        if(i == n1 || j == n2)
+            break;
+        
         if(array1[i] <= array2[j])
         {
             array[p] = array1[i];
-            ++i;
+            i += 1;
         }
         else
         {
             array[p] = array2[j];
-            ++j;
+            j += 1;
         }
-
-        if(i == n1 || j == n2)
-            break;
     }
     
     if(i == n1)
     {
         for(;j<n2;++j,++p)
-            array[p+1] = array2[j];
+            array[p] = array2[j];
     }
 
     if(j == n2)
     {
         for(;i<n1;++i,++p)
-            array[p+1] = array1[i];
+            array[p] = array1[i];
     }
 
     delete [] array1;
@@ -62,7 +61,7 @@ void mergeSort(int* array,int p,int r)
    {
        int q = (p+r)/2;
        mergeSort(array,p,q);
-       mergeSort(array,q+1,r);
+       mergeSort(array,q,r);
        merge(array,p,q,r);
    }
 }
@@ -70,12 +69,14 @@ void mergeSort(int* array,int p,int r)
 int main(int argc,char** argv)
 {
     int array[10] = {9,8,7,6,5,4,3,2,1,0};
+    
     for(int i=0;i<10;++i)
         std::cout << array[i] << " ";
     std::cout << std::endl;
 
-    mergeSort(array,0,9);
-    
+    mergeSort(array,0,10);
+//    merge(array,0,5,10);
+
     for(int i=0;i<10;++i)
         std::cout << array[i] << " ";
     std::cout << std::endl;

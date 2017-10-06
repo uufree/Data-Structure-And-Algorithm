@@ -20,7 +20,7 @@ class Vector
         int _size;  //规模
         int _capacity;   //容量
         T* _elem;    //数据区
-
+    
         void copyFrom(T const* array,int low,int hight);
         void expand(); 
         void shrink();
@@ -46,9 +46,8 @@ class Vector
         bool empty() const {return _size == 0;};
         int find(const T& elem) const;
         int find(const T& elem,int low,int hight) const;
-        int search(const T& elem) const;//has problem
-        int search(const T& elem,int low,int right) const;//has problem too
-        void show() const;
+        int search(const T& elem) const;
+        int search(const T& elem,int low,int right) const;
 
 //可写接口
         T& operator[](int rank) const;
@@ -63,7 +62,7 @@ class Vector
         void unsort(int low,int hight);
         int deduplicate(); //无序去重
         int uniquify();    //有序去重
-
+        
         void traverse(void (*)(T&));
         template<typename VST> void traverse(VST&); //函数对象
 };
@@ -78,20 +77,14 @@ void permute(Vector<T>& vec)
 template<typename T>
 int binSearch(const T* array,const T& elem,int low,int hight)
 {
+    int mid;
     while(low < hight)
     {
-        int mid = (low + hight) >> 1;
-        (elem < array[mid]) ? hight = mid : low = mid;
+        mid = (low + hight) / 2;
+        (elem < array[mid]) ? hight = mid : low = mid + 1;
     }
 
-    return (elem == array[low]) ? low : -1;
-}
-
-template<typename T>
-void Vector<T>::show() const
-{
-    for(int i=0;i<_size;++i)
-        std::cout << _elem[i] << std::endl;
+    return --low;
 }
 
 template<typename T>
@@ -145,9 +138,9 @@ void Vector<T>::shrink()
 template<typename T>
 void Vector<T>::bubbleSort(int low,int hight)
 {
-    for(int i=low;i<hight;++i)
+    for(int i=low;i<hight-1;++i)
     {
-        for(int j=low+1;j<hight;++j)
+        for(int j=i;j<hight;++j)
         {
             if(_elem[i] > _elem[j])
                 std::swap(_elem[i],_elem[j]);
@@ -176,7 +169,7 @@ void Vector<T>::mergeSort(int low,int hight)
     if(low < hight)
     {
         int mid = (low + hight) >> 1;
-        mergeSort(low,mid);
+        mergeSort(low,mid); 
         mergeSort(mid+1,hight);
         merge(low,mid,hight);
     }
@@ -198,7 +191,7 @@ void Vector<T>::merge(int low,int mid,int hight)
         array2[i] = _elem[mid+i+1];
     
     int i=0,j=0;
-    for(;low<=mid;++low)
+    for(;low<=hight;++low)
     {
         if(array1[i] <= array2[j])
         {
@@ -217,13 +210,13 @@ void Vector<T>::merge(int low,int mid,int hight)
 
     if(i == n1)
     {
-        for(;j < n2;++j)
+        for(;j < n2;++j,++low)
             _elem[low+1] = array2[j];
     }
 
     if(j == n2)
     {
-        for(;i < n1;++i)
+        for(;i < n1;++i,++low)
             _elem[low+1] = array1[i];
     }
 
@@ -338,7 +331,8 @@ int Vector<T>::remove(int low,int hight)
 
     while(hight < _size)
         _elem[low++] = _elem[hight++];
-
+    
+    _size -= (hight - low);
     return  hight - low; 
 }
 
@@ -346,11 +340,12 @@ template<typename T>
 void Vector<T>::insert(int rank,const T& elem)
 {
     expand();
-
+    
     for(int i = _size;i > rank;--i)
-        _elem[i] = elem[i-1];
+        _elem[i] = _elem[i-1];
 
     _elem[rank] = elem;
+    _size += 1;
 }
 template<typename T>
 void Vector<T>::insert(const T& elem)
@@ -370,7 +365,7 @@ void Vector<T>::sort(int low,int hight)
             selectSort(low,hight);
             break;
         case 3:
-            mergeSort(low,hight);
+            mergeSort(low,hight-1);
             break;
         case 4:
             heapSort(low,hight);
@@ -405,9 +400,14 @@ int Vector<T>::deduplicate()
 {
     int oldSize = _size;
 
-    int p;
     for(int i=0;i<_size;++i)
-        (p=find(_elem[i] < 0)) ? ++i : remove(p);
+    {
+        for(int j=i+1;j<_size;++j)
+        {
+            if(_elem[j] == _elem[i])
+                remove(j);
+        }
+    }
 
     return oldSize - _size;
 }
