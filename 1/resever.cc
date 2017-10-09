@@ -11,10 +11,7 @@ void resever(int* array,int low,int hight)
 {
     if(low < hight)
     {
-        int temp = array[hight];
-        array[hight] = array[low];
-        array[low] = temp;
-
+        std::swap(array[low],array[hight]);
         resever(array,low+1,hight-1);
     }
 }
