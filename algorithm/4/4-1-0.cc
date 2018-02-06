@@ -1,5 +1,5 @@
 /*************************************************************************
-	> File Name: 4-1-1.cc
+	> File Name: 4-1-0.cc
 	> Author: uuchen
 	> Mail: 1319081676@qq.com
 	> Created Time: 2018年02月05日 星期一 15时29分08秒
@@ -21,7 +21,7 @@ struct result findMaxSubarray(int* array,int low,int high);
 
 int main(int argc,char** argv)
 {
-    int array[10] = {-1,4,-5,7,-3,10,-6,1,-4,5};
+    int array[10] = {-1,-4,5,-7,3,10,-6,1,4,5};
     struct result res = findMaxSubarray(array,0,9);
 
     std::cout << "leftIndex: " << res.low << std::endl;
