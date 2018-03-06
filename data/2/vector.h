@@ -17,7 +17,7 @@ template<typename T>
 class Vector
 {
     public:
-        explicit Vector(int capacity_ = DEFAULT_CAPACITY,int size_ = 0,T elem_ = 0){_elem = new T[capacity_];for(_size=0;_size<size_;_size++){_elem[_size] = elem_;};std::cout << "_size: " << _size << std::endl;}
+        explicit Vector(int capacity_ = DEFAULT_CAPACITY,int size_ = 0,T elem_ = 0){_elem = new T[capacity_];for(_size=0;_size<size_;_size++){_elem[_size] = elem_;};}
         Vector(T const* array_,int low_,int high_){copyFrom(array_,low_,high_);}
         Vector(T const* array_,int len_){copyFrom(array_,0,len_);}
         Vector(Vector<T> const& array_,int low_,int high_){copyFrom(array_,low_,high_);}
@@ -37,7 +37,6 @@ class Vector
 
             while(low_ < high_)
                 _elem[low_++] = array_[_size++];
-            std::cout << "_size: " << _size << std::endl;    
         }
 
         void copyFrom(Vector<T> const& array_,int low_,int high_)
@@ -49,7 +48,6 @@ class Vector
 
             while(low_ < high_)
                 _elem[low_++] = array_[_size++];
-            std::cout << "_size: " << _size << std::endl;    
         }
         
         void expand()
@@ -61,17 +59,17 @@ class Vector
             
             T* oldElem = _elem;
             _elem = new T[_capacity <<= 1];
-           for(int i=0;i<_size;i++)
+            for(int i=0;i<_size;i++)
                _elem[i] = oldElem[i];
 
-           delete [] oldElem;
+            delete [] oldElem;
         }
         
         void shrink()
         {
-            if(_capacity < DEFAULT_CAPACITY)
+            if(_capacity < (DEFAULT_CAPACITY<<1))
                 return;
-            if(_capacity>>2 < _size)
+            if((_capacity>>2) > _size)
                 return;
 
             T* oldElem = _elem;
@@ -82,13 +80,13 @@ class Vector
             delete [] oldElem;
         }
 
-        void bubbleSort(int low_,int high_);
-        void selectionSort(int low_,int high_);
+        void bubbleSort(int low_,int high_);//冒泡排序
+        void selectionSort(int low_,int high_);//选择排序
         void merge(int low_,int mid_,int high_);
-        void mergeSort(int low_,int high_);
-        void quicksort(int low_,int high_);
-        void heapSort(int low_,int high_);
-        int maxIndex(int low_,int high_);
+        void mergeSort(int low_,int high_);//归并排序
+        void quicksort(int low_,int high_);///快速排序
+        void heapSort(int low_,int high_);//堆排序
+        int max(int low_,int high_);//最大值元素
     
     public:
         int size() const {return _size;}
@@ -103,11 +101,11 @@ class Vector
         int remove(int low_,int high_);
         int insert(T const& elem_){return insert(_size,elem_);};
         int insert(int index_,T const& elem_);
-        void sort(int low,int high);
+        void sort(int low_,int high_);
         void sort(){sort(0,_size);};
-        void unsort(int low,int high)
+        void unsort(int low_,int high_)
         {
-            
+                
         }
 
         void unsort(){unsort(0,_size);};
