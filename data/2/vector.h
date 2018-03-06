@@ -89,23 +89,57 @@ class Vector
         int max(int low_,int high_);//最大值元素
     
     public:
+    //读接口
         int size() const {return _size;}
         bool empty() const {return !_size;}
         int isSort() const;
-        int find(T const& elem_) const {return find(elem_,0,_size);};
-        int find(T const& elem_,int low_,int high_) const;
-        int search(T const& elem_) const {return search(elem_,0,_size);};
-        int search(T const& elem_,int low_,int high_) const;
+        int find(T const& elem_) const {return find(elem_,0,_size);};//无序查找
+        int find(T const& elem_,int low_,int high_) const
+        {
+            while((low_ < high_--) && (elem_ != _elem[high_]));
+            return high_;
+        }
+        int search(T const& elem_) const {return search(elem_,0,_size);};//有序查找
+        int search(T const& elem_,int low_,int high_) const
+        {
+
+        }
         
-        T remove(int index_);
-        int remove(int low_,int high_);
+    //写接口    
+        T remove(int index_)
+        {
+            T elem = _elem[index_];
+            remove(index_,index_+1);
+            return elem;
+        }
+
+        int remove(int low_,int high_)
+        {
+            if(low_ == high_)
+                return 0;
+            while(high_ < _size)
+                _elem[low_++] = _elem[high_++];
+            _size = low_;
+            shrink();
+            return (high_-low_);
+        }
+
         int insert(T const& elem_){return insert(_size,elem_);};
-        int insert(int index_,T const& elem_);
+        int insert(int index_,T const& elem_)
+        {
+            expand();
+            for(int i=_size;i>index_;i--)
+                _elem[i] = _elem[i-1];
+            _elem[index_] = elem_;
+            ++_size;
+        }
+
         void sort(int low_,int high_);
         void sort(){sort(0,_size);};
         void unsort(int low_,int high_)
         {
-                
+            for(int i=high_-low_;i>0;i--)
+                std::swap(_elem[i-1],_elem[rand()%i]);
         }
 
         void unsort(){unsort(0,_size);};
