@@ -86,23 +86,69 @@ class Vector
         void mergeSort(int low_,int high_);//归并排序
         void quicksort(int low_,int high_);///快速排序
         void heapSort(int low_,int high_);//堆排序
-        int max(int low_,int high_);//最大值元素
+        T max(int low_,int high_)//最大值元素
+        {
+            T elem;
+            if(isSort())
+                _elem[low_] < _elem[high_-1] ? elem=_elem[high_-1] : elem=_elem[low_];
+            else
+                elem = _elem[findMax(low_,high_)];
+            return elem;
+        }
     
     public:
     //读接口
         int size() const {return _size;}
         bool empty() const {return !_size;}
-        int isSort() const;
+        int isSort() const
+        {
+            int n = 0;
+            for(int i=1;i<_size;i++)
+                if(_elem[i] > _elem[i-1])
+                    ++n;
+            return n;
+        }
         int find(T const& elem_) const {return find(elem_,0,_size);};//无序查找
         int find(T const& elem_,int low_,int high_) const
         {
             while((low_ < high_--) && (elem_ != _elem[high_]));
             return high_;
         }
+        int findMax() const{findMax(0,_size);};
+        int findMax(int low_,int high_) const
+        {
+            T elem = _elem[low_];
+            for(int i=low_;i<high_;i++)
+            {
+                if(elem < _elem[i])
+                    elem = _elem[i];
+            }
+            return elem;
+        }
+
         int search(T const& elem_) const {return search(elem_,0,_size);};//有序查找
         int search(T const& elem_,int low_,int high_) const
         {
+            int index = high_;
+            if(elem_ > _elem[--index] || elem_ < _elem[low_])
+                return -1;
 
+            while((index=(low_+high_) >> 1))
+            {
+                if(_elem[index] > elem_)
+                {
+                    high_ = index;
+                    continue;
+                }
+                else if(_elem[index] < elem_)
+                {
+                    low_ = index;
+                    continue;
+                }
+                else
+                    break;
+            }
+            return index;
         }
         
     //写接口    
@@ -132,9 +178,25 @@ class Vector
                 _elem[i] = _elem[i-1];
             _elem[index_] = elem_;
             ++_size;
+            return index_;
         }
 
-        void sort(int low_,int high_);
+        void sort(int low_,int high_)
+        {
+            switch(rand() % 5)
+            {
+                case 1:
+                    bubbleSort(low_,high_);break;
+                case 2:
+                    selectionSort(low_,high_);break;
+                case 3:
+                    mergeSort(low_,high_);break;
+                case 4:
+                    heapSort(low_,high_);break;
+                default:
+                    quicksort(low_,high_);break;
+            }
+        }
         void sort(){sort(0,_size);};
         void unsort(int low_,int high_)
         {
@@ -143,8 +205,25 @@ class Vector
         }
 
         void unsort(){unsort(0,_size);};
-        int deduplicate();//无序去重
-        int uniquify();//有序去重
+        int deduplicate()//无序去重
+        {
+            int oldSize = _size;
+            int index = 1;
+            while(index < _size)
+                (find(_elem[index],0,index) < 0) ? index++ : remove(index);
+            return oldSize - _size;
+        }
+
+        int uniquify()//有序去重
+        {
+            int first = 0,second = 0;
+            while(++second < _size)
+                if(_elem[first] != _elem[second])
+                    _elem[++first] = _elem[second];
+            _size = ++first;
+            shrink();
+            return second - first;
+        }
 
     private:
         int _size;;
