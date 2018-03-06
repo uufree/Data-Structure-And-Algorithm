@@ -5,6 +5,8 @@
 	> Created Time: 2018年02月09日 星期五 16时04分01秒
  ************************************************************************/
 
+//除了几个排序算法没有写,其他的测试完毕..
+
 #ifndef _VECTOR_H
 #define _VECTOR_H
 
@@ -224,6 +226,8 @@ class Vector
             shrink();
             return second - first;
         }
+        
+        int capacity(){return _capacity;};
 
     private:
         int _size;;
