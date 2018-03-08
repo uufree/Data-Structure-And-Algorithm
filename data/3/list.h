@@ -50,15 +50,15 @@ template<typename T>
 class List
 {
     public:
-        List(){init();};
-        List(List<T> const& list_);
-        List(List<T> const& list_,int rank_,int size_);
-        List(ListNode<T> const& nodes_,int size_);
-        ~List();
+        explicit List(){init();};
+        List(List<T> const& list_){copyNotes(list_.first(),list_.size());};
+        List(List<T> const& list_,int rank_,int size_){copyNotes(list_[rank_],size_);};
+        List(ListNode<T> const& nodes_,int size_){copyNotes(nodes_,size_);};
+        ~List(){clear();delete _header;delete _tailer;};
 
     //read interface
-        int size(){return _size;};
-        bool empty(){return _size == 0;};
+        int size() const{return _size;};
+        bool empty() const{return _size == 0;};
         T const& operator=(int rank_) const;
         ListNode<T>* first() const {return _header->_next;};
         ListNode<T>* last() const {return _tailer->_prev;};
@@ -85,12 +85,13 @@ class List
 
     protected:
         void init();
-        void clear();
+        int clear();
         void copyNotes(ListNode<T>* nodes_,int size_);
         void merge(ListNode<T>* first_,int size1_,List<T>& list_,ListNode<T>* second_,int size2_);
         void mergeSort(ListNode<T>* nodes_,int size_);
         void selectionSort(ListNode<T>* nodes_,int size_);
         void insertSort(ListNode<T>* nodes_,int size_);
+    
     private:
         int _size;
         ListNode<T>* _header;
