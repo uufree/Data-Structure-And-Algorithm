@@ -23,10 +23,28 @@ struct ListNode
         _prev(prev_),
         _next(next_)
     {};
-    
+     
     ListNode<T>* insertAsPrev(T const& data_);
     ListNode<T>* insertAsNext(T const& data_);
 };
+
+template<typename T>
+ListNode<T>* ListNode<T>::insertAsPrev(T const& data_)
+{
+    ListNode<T>* node = new ListNode<T>(data_,_prev,this);
+    _prev->_next = node;
+    _prev = node;
+    return node;
+}
+
+template<typename T>
+ListNode<T>* ListNode<T>::insertAsNext(T const& data_)
+{
+    ListNode<T>* node = new ListNode<T>(data_,this,_next);
+    _next->_prev = node;
+    _next = node;
+    return node;
+}
 
 template<typename T>
 class List
@@ -41,7 +59,7 @@ class List
     //read interface
         int size(){return _size;};
         bool empty(){return _size == 0;};
-        T& operator=(int rank_) const;
+        T const& operator=(int rank_) const;
         ListNode<T>* first() const {return _header->_next;};
         ListNode<T>* last() const {return _tailer->_prev;};
         bool isSort() const;
@@ -62,9 +80,8 @@ class List
         T remove(ListNode<T>* nodes_);
         void sort(ListNode<T>* nodes_,int size_);
         void sort(){sort(_header,_size);};
-        int deduplicate();
-        int uniquify();
-
+        int deduplicate();//无序去重
+        int uniquify();//有序去重
 
     protected:
         void init();
