@@ -24,12 +24,12 @@ struct ListNode
         _next(next_)
     {};
      
-    ListNode<T>* insertAsPrev(T const& data_);
-    ListNode<T>* insertAsNext(T const& data_);
+    ListNode<T>* insertAsPrev(T& data_);
+    ListNode<T>* insertAsNext(T& data_);
 };
 
 template<typename T>
-ListNode<T>* ListNode<T>::insertAsPrev(T const& data_)
+ListNode<T>* ListNode<T>::insertAsPrev(T& data_)
 {
     ListNode<T>* node = new ListNode<T>(data_,_prev,this);
     _prev->_next = node;
@@ -38,7 +38,7 @@ ListNode<T>* ListNode<T>::insertAsPrev(T const& data_)
 }
 
 template<typename T>
-ListNode<T>* ListNode<T>::insertAsNext(T const& data_)
+ListNode<T>* ListNode<T>::insertAsNext(T& data_)
 {
     ListNode<T>* node = new ListNode<T>(data_,this,_next);
     _next->_prev = node;
