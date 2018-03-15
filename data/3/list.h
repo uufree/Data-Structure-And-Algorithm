@@ -8,6 +8,7 @@
 #ifndef _LIST_H
 #define _LIST_H
 
+#include<iostream>
 #include<cstdlib>
 
 template <typename T>
@@ -58,7 +59,7 @@ class List
 
     //read interface
         int size() const{return _size;};
-        bool empty() const{return _size == 0;};
+        bool empty() const{return !_size;};
         T const& operator[](int rank_) const;
         ListNode<T>* first() const {return _header->_next;};
         ListNode<T>* last() const {return _tailer->_prev;};
@@ -70,7 +71,7 @@ class List
         ListNode<T>* max() const{return max(_header,_size);};
         ListNode<T>* min(ListNode<T>* nodes_,int size_) const;
         ListNode<T>* min() const{return min(_header,_size);};
-    
+
     //write interface
         ListNode<T>* insertAsFirst(T& data_);
         ListNode<T>* insertAsLast(T& data_);
@@ -121,7 +122,7 @@ template<typename T>
 ListNode<T>* List<T>::find(ListNode<T>* nodes_,int size_,T& data_) const
 {
     while(size_--)
-        if(data_ == (nodes_->_next)->_data)
+        if(data_ == ((nodes_=nodes_->_next)->_data))
            return nodes_; 
 }
 
@@ -186,6 +187,7 @@ int List<T>::clear()
 template<typename T>
 int List<T>::deduplicate()
 {
+    std::cout << "1" << std::endl;
     if(_size < 2)
         return 0;
     ListNode<T>* node = _header;
@@ -241,18 +243,18 @@ void List<T>::sort(ListNode<T>* nodes_,int size_)
 template<typename T>
 ListNode<T>* List<T>::max(ListNode<T>* nodes_,int size_) const
 {
-    ListNode<T>* node = nodes_;
-    while(size_--)
-        node->_data > nodes_->_data ? node = nodes_,nodes_=nodes_->_next : nodes_=nodes_->_next;
+    ListNode<T>* node = nodes_->_next;
+    while(size_-- && (nodes_=nodes_->_next))
+        node->_data < nodes_->_data ? node = nodes_ : node;
     return node;
 }
 
 template<typename T>
 ListNode<T>* List<T>::min(ListNode<T>* nodes_,int size_) const
 {
-    ListNode<T>* node = nodes_;
-    while(size_--)
-        node->_data < nodes_->_data ? node = nodes_,nodes_=nodes_->_next : nodes_=nodes_->_next;
+    ListNode<T>* node = nodes_->_next;
+    while(size_-- && (nodes_=nodes_->_next))
+        node->_data > nodes_->_data ? node = nodes_ : node;
     return node;
 }
 
