@@ -68,9 +68,9 @@ class List
         ListNode<T>* search(T& data_) const{return search(_header,_size,data_);};
         ListNode<T>* search(ListNode<T>* nodes_,int size_,T& data_) const;
         ListNode<T>* max(ListNode<T>* nodes_,int size_) const;
-        ListNode<T>* max() const{return max(_header,_size);};
+        ListNode<T>* max() const{return max(_header->_next,_size);};
         ListNode<T>* min(ListNode<T>* nodes_,int size_) const;
-        ListNode<T>* min() const{return min(_header,_size);};
+        ListNode<T>* min() const{return min(_header->_next,_size);};
 
     //write interface
         ListNode<T>* insertAsFirst(T& data_);
@@ -124,6 +124,7 @@ ListNode<T>* List<T>::find(ListNode<T>* nodes_,int size_,T& data_) const
     while(size_--)
         if(data_ == ((nodes_=nodes_->_next)->_data))
            return nodes_; 
+    return NULL;
 }
 
 template<typename T>
@@ -187,15 +188,24 @@ int List<T>::clear()
 template<typename T>
 int List<T>::deduplicate()
 {
-    std::cout << "1" << std::endl;
     if(_size < 2)
         return 0;
-    ListNode<T>* node = _header;
-    int oldSize = _size,rank = 0;
-    while((node=node->_next) != _tailer)
+
+    ListNode<T>* node = _header->_next;
+    int oldSize = _size,rank = 1;
+    while(node != _tailer)
     {
-        ListNode<T>* dnode = find(node,rank,node->_data);
-        dnode ? remove(dnode) : rank++;
+        ListNode<T>* dnode = find(node,_size-rank,node->_data);
+        if(dnode)
+        {
+            remove(dnode),
+            --_size;
+        }
+        else
+        {
+            ++rank,
+            node = node->_next;
+        }
     }
     return oldSize - _size;
 }
@@ -206,13 +216,13 @@ int List<T>::uniquify()
     if(_size < 2)
         return 0;
     int oldSize = _size;
-    ListNode<T>* first = first();
+    ListNode<T>* first = _header;
     ListNode<T>* second;
     while((second=first->_next) != _tailer)
         if(first->_data != second->_data)
             first = second;
         else
-            remove(second);
+            remove(second),--_size;
     return oldSize - _size;
 }
 
@@ -243,18 +253,18 @@ void List<T>::sort(ListNode<T>* nodes_,int size_)
 template<typename T>
 ListNode<T>* List<T>::max(ListNode<T>* nodes_,int size_) const
 {
-    ListNode<T>* node = nodes_->_next;
-    while(size_-- && (nodes_=nodes_->_next))
-        node->_data < nodes_->_data ? node = nodes_ : node;
+    ListNode<T>* node = nodes_;
+    while(size_--)
+        node->_data < nodes_->_data ? node = nodes_,nodes_=nodes_->_next : nodes_=nodes_->_next;
     return node;
 }
 
 template<typename T>
 ListNode<T>* List<T>::min(ListNode<T>* nodes_,int size_) const
 {
-    ListNode<T>* node = nodes_->_next;
-    while(size_-- && (nodes_=nodes_->_next))
-        node->_data > nodes_->_data ? node = nodes_ : node;
+    ListNode<T>* node = nodes_;
+    while(size_--)
+        node->_data > nodes_->_data ? node = nodes_,nodes_=nodes_->_next : nodes_=nodes_->_next;
     return node;
 }
 

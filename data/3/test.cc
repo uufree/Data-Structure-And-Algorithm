@@ -10,22 +10,19 @@
 
 int main(int argc,char** argv)
 {
-    int array[10] = {10,9,8,7,6,5,4,3,2,1};
+    int array[10] = {1,2,3,4,5,6,7,7,7,7};
     List<int> list;
     for(int i=0;i<10;i++)
-        list.insertAsFirst(array[i]);
-    int number = 10;
-    list.insertAsLast(number);
-    list.insertAsLast(number);
+        list.insertAsLast(array[i]);
     
-    list.deduplicate();
+    list.uniquify();
 
     std::cout << "List Size: " << list.size() << std::endl;
     ListNode<int>* head = list.first()->_prev;
-    while((head=head->_next))
+    while((head=head->_next) && (head != list.last()->_next))
         std::cout << head->_data << "   ";
     std::cout << std::endl;
-    
+
     return 0;
 }
 
