@@ -8,6 +8,7 @@
 #include<iostream>
 #include"stack.h"
 #include<cstring>
+#include<unistd.h>
 
 void demo1();
 void demo2(Stack<int>&,int,int);
@@ -50,7 +51,9 @@ void demo2(Stack<int>& stack,int int10,int int2)
     }
 }
 
-int calcuate(int,char,int);
+//表达式求值
+//因为原理差不多,只简单的描述个位数的求值过程
+//核心:当栈顶优先级大于当前运算符优先级时,弹出两个操作数以及弹出栈顶的运算符,进行计算后,结果入栈,且当前的运算符不入栈.
 int calcuate(int num1,char op,int num2)
 {
     if(op == '+')
@@ -64,9 +67,7 @@ int calcuate(int num1,char op,int num2)
     else
         return -1;
 }
-//表达式求值
 
-int getPosInOperator(char ch);
 int getPosInOperator(char ch)
 {
     if(ch == '+')
@@ -77,6 +78,8 @@ int getPosInOperator(char ch)
         return 2;
     else if(ch == '/')
         return 3;
+    else if(ch == '\0')
+        return 4;
     else
         return -1;
 }
@@ -93,42 +96,52 @@ void demo3()
         {'>','>','>','>','>'},
         {'<','<','<','<','='}
     };
-
+    
     char const* math = "5+3*6-9/3";
     Stack<char> charStack;//运算符栈
-    Stack<int> intStack;//运算数栈
-    
-    charStack.push(op[4][4]);
+    Stack<int> intStack;//运算数栈 
+    char ch0 = '\0';
+    charStack.push(ch0);
     
     while(!charStack.empty())//以栈是否为空来进行计算呐
     {
         char ch = *math;//获得当前的字符串
-        int number = -1;
-        if(ch > 47 || ch < 58)//计算数入栈
+        int number = 0;
+
+        if(ch > 47 && ch < 58)//计算数入栈
         {
-           number = ch - 48; 
-           intStack.push(number);
+            number = ch - 48;
+            intStack.push(number);
+            math++;
         }
         else//非计算数进行判断,然后再处理
         {
-            int stackTopPos = getPosInOperator(charStack.top());
+            int stackTopPos = getPosInOperator(charStack.top()); 
             int currentPos = getPosInOperator(ch);
             char oper = op[stackTopPos][currentPos];
-
+            
             switch(oper)
             {
                 case '<':
-                    charStack.push(ch);math++;
+                {
+                    charStack.push(ch);
+                    math++;
                     break;
+                }
                 case '=':
-                    charStack.pop();math++;
+                {
+                    charStack.pop();
+                    math++;
                     break;
+                }
                 case '>':
                 {
+                    char ps = charStack.pop();
                     int num2 = intStack.pop();
                     int num1 = intStack.pop();
-                    int result = calcuate(num1,ch,num2);
+                    int result = calcuate(num1,ps,num2);
                     intStack.push(result);
+                    break;
                 }
             }
         }
