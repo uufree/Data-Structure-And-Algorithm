@@ -20,16 +20,8 @@ void demo8();
 
 int main(int argc,char** argv)
 {
-    Stack<int> stack;
-    int int10 = 10;
-    int int2 = 2;
-    demo2(stack,int10,int2);
-    
-    std::cout << stack.size() << std::endl;
+    demo3();
 
-    while(!stack.empty())
-        std::cout << stack.pop() << std::endl;
-    
     return 0;
 }
 
@@ -58,25 +50,91 @@ void demo2(Stack<int>& stack,int int10,int int2)
     }
 }
 
+int calcuate(int,char,int);
+int calcuate(int num1,char op,int num2)
+{
+    if(op == '+')
+        return num1 + num2;
+    else if(op == '-')
+        return num1 - num2;
+    else if(op == '*')
+        return num1 * num2;
+    else if(op == '/')
+        return num1 / num2;
+    else
+        return -1;
+}
 //表达式求值
+
+int getPosInOperator(char ch);
+int getPosInOperator(char ch)
+{
+    if(ch == '+')
+        return 0;
+    else if(ch == '-')
+        return 1;
+    else if(ch == '*')
+        return 2;
+    else if(ch == '/')
+        return 3;
+    else
+        return -1;
+}
+
 void demo3()
 {
-    static char[4][4] = 
+//[栈顶] [当前] OK?
+//+ - * / \0
+    static char op[5][5] = 
     {
-        {'','','',''},
-        {'','','',''},
-        {'','','',''},
-        {'','','',''}
+        {'>','>','<','<','>'},
+        {'>','>','<','<','>'},
+        {'>','>','>','>','>'},
+        {'>','>','>','>','>'},
+        {'<','<','<','<','='}
     };
+
     char const* math = "5+3*6-9/3";
     Stack<char> charStack;//运算符栈
     Stack<int> intStack;//运算数栈
     
-    for(size_t i=0;i<strlen(math);i++)
+    charStack.push(op[4][4]);
+    
+    while(!charStack.empty())//以栈是否为空来进行计算呐
     {
-        
+        char ch = *math;//获得当前的字符串
+        int number = -1;
+        if(ch > 47 || ch < 58)//计算数入栈
+        {
+           number = ch - 48; 
+           intStack.push(number);
+        }
+        else//非计算数进行判断,然后再处理
+        {
+            int stackTopPos = getPosInOperator(charStack.top());
+            int currentPos = getPosInOperator(ch);
+            char oper = op[stackTopPos][currentPos];
+
+            switch(oper)
+            {
+                case '<':
+                    charStack.push(ch);math++;
+                    break;
+                case '=':
+                    charStack.pop();math++;
+                    break;
+                case '>':
+                {
+                    int num2 = intStack.pop();
+                    int num1 = intStack.pop();
+                    int result = calcuate(num1,ch,num2);
+                    intStack.push(result);
+                }
+            }
+        }
     }
 
+    std::cout << "Result: " << intStack.pop() << std::endl;
 }
 
 
