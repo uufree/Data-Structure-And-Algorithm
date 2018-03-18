@@ -7,6 +7,7 @@
 
 #include<iostream>
 #include"stack.h"
+#include"deque.h"
 
 struct queen
 {
@@ -16,8 +17,15 @@ struct queen
 
 int main(int argc,char** argv)
 {
-    Stack<queen> stack;
+    Deque<int> deque;
     
+    for(int i=0;i<10;i++)
+        deque.push(i);
+    
+    std::cout << "Deque Size: " << deque.size() << std::endl;
+    std::cout << "Deque Top: " << deque.top() << std::endl;
+    std::cout << "Deque Tail: " << deque.tail() << std::endl;
+
     return 0;
 }
 

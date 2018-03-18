@@ -9,6 +9,8 @@
 #define _BINARYTREE_H
 
 #include<iostream>
+#include<functional>
+
 
 typedef enum{RB_RED,RB_BLACK} RBColor;
 
@@ -63,21 +65,26 @@ class BinaryTree
         int size() const {return _size;};
         bool empty() const {return !_root;};
         BinaryNode<T>* root() const {return _root;};
-        BinaryNode<T>* insertAsRoot();
+        BinaryNode<T>* insertAsRoot(T const& elem);
         BinaryNode<T>* insertAsLeftChild(BinaryNode<T>* node,T const& elem);
         BinaryNode<T>* insertAsRightChild(BinaryNode<T>* node,T const& elem);
-        BinaryNode<T>* attachAsLeftChild(BinaryNode<T>* lhs,BinaryNode<T>* rhs);
-        BinaryNode<T>* attachAsRightChild(BinaryNode<T>* lhs,BinaryNode<T>* rhs);
+        BinaryNode<T>* attachAsLeftChild(BinaryNode<T>* node,BinaryTree<T>* tree);
+        BinaryNode<T>* attachAsRightChild(BinaryNode<T>* node,BinaryTree<T>* tree);
         int remove(BinaryNode<T>* node);
-        
+        BinaryTree<T>* secede(BinaryNode<T>* node);
+        void travLevel() const {if(_root) _root->travLevel();};
+        void travIn() const {if(_root) _root->travIn();};
+        void travPost() const {if(_root) _root->travPost();};
+        void travPre() const {if(_root) _root->travPre();};
+        bool operator==(BinaryTree<T> const& tree) const {return _root == tree._root;};
+        bool operator<(BinaryTree<T> const& tree) const {return _root < tree._root;};
 
     protected:
         int _size;
         BinaryNode<T>* _root;
-        virtual int updateHeight(BinaryNode<T> const* node);
-        void updateHeightAbove(BinaryNode<T> const* node);
+        virtual int updateHeight(BinaryNode<T>* node);
+        void updateHeightAbove(BinaryNode<T>* node);
 };
-
 
 
 #endif
