@@ -228,7 +228,7 @@ inline BinaryNode<T>* Uncle(BinaryNode<T> const* node)
 {return IsLeftChild(node) ? node->_parent->_parent->_rightChild : node->_parent->_parent->_leftChild;}
 
 template<typename T>
-inline BinaryNode<T>* FromParentToRef(BinaryNode<T>* node)
+inline BinaryNode<T>*& FromParentToRef(BinaryNode<T>* node)
 {return IsRoot(node) ? node : (IsLeftChild(node) ? node->_parent->_leftChild : node->_parent->_rightChild);}
 
 template<typename T>
@@ -349,8 +349,7 @@ BinaryNode<T>* BinaryTree<T>::attachAsRightChild(BinaryNode<T>* node,BinaryTree<
 template<typename T>
 int BinaryTree<T>::remove(BinaryNode<T>* node)
 {
-    BinaryNode<T>* f_node = FromParentToRef(node);
-    f_node = NULL;
+    FromParentToRef(node) = NULL;
     updateHeightAbove(node->_parent);
     int n = removeAt(node);
     _size -= n;
@@ -370,8 +369,7 @@ static int removeAt(BinaryNode<T>* node)
 template<typename T>
 BinaryTree<T>* BinaryTree<T>::secede(BinaryNode<T>* node)
 {
-    BinaryNode<T>* f_node = FromParentToRef(node);
-    f_node = NULL;
+    FromParentToRef(node) = NULL;
     updateHeightAbove(node->_parent);
     BinaryTree<T>* tree = new BinaryTree<T>;
     tree->_root = node;
