@@ -8,19 +8,16 @@
 #include<iostream>
 #include"stack.h"
 
+struct queen
+{
+    int number;
+    int high;
+};
+
 int main(int argc,char** argv)
 {
-    Stack<int> stack;
-    int number = 5;
-    stack.push(number);
-    stack.push(number);
-    stack.push(number);
-    stack.push(number);
+    Stack<queen> stack;
     
-    int temp = stack.pop();
-    std::cout << "Temp: " << temp << std::endl;
-
-    std::cout << "Stack Size: " << stack.size() << std::endl;
     return 0;
 }
 

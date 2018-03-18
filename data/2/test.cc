@@ -8,19 +8,16 @@
 #include<iostream>
 #include"vector.h"
 
+struct Queen
+{
+    int _x,_y;
+};
+
 int main(int argc,char** argv)
 {
-    int* array = new int[10];
-    for(int i=0;i<10;i++)
-        array[i] = i;
+    Vector<Queen> vec;
+    Queen queen; 
     
-    Vector<int> vec(array,10);
-
-    std::cout << "Array Size: " << vec.size() << std::endl;
-    std::cout << "Array Capacity: " << vec.capacity() << std::endl;
-    for(int i=0;i<vec.size();i++)
-        std::cout << vec[i] << "    ";
-    std::cout << std::endl;
 
     return 0;
 }

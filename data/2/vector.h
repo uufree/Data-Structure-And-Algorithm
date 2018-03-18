@@ -21,7 +21,7 @@ template<typename T>
 class Vector
 {
     public:
-        explicit Vector(int capacity_ = DEFAULT_CAPACITY,int size_ = 0,T elem_ = 0);
+        explicit Vector(int capacity_ = DEFAULT_CAPACITY,int size_ = 0,T elem_ = T());
         Vector(T const* array_,int low_,int high_){copyFrom(array_,low_,high_);}
         Vector(T const* array_,int len_){copyFrom(array_,0,len_);}
 
