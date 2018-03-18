@@ -11,17 +11,6 @@
 #include<iostream>
 
 typedef enum{RB_RED,RB_BLACK} RBColor;
-/*
-#define IsRoot(node) (!((node)._parent))
-#define IsLeftChild(node) ((!IsRoot(node)) & ((node) == ((node)._parent)->_leftChild))
-#define IsRightChild(node) ((!IsRoot(node)) & ((node) == ((node)._parent)->_rightChild))
-#define HasParent(node) (!IsRoot(node))
-#define HasLeftChild(node) ((node)._leftChild)
-#define HasRightChild(node) ((node)._rightChild)
-#define HasChild(node) (HasLeftChild(node) || HasRightChild(node))
-#define HasBothChild(node) (HasLeftChild(node) & HasRightChild(node))
-#define IsLeaf(node) (!HasChild(node))
-*/
 
 template<typename T>
 struct BinaryNode
@@ -63,6 +52,32 @@ struct BinaryNode
     bool operator==(BinaryNode const& node){return node._data == _data;};
     bool operator<(BinaryNode const& node){return _data < node._data;};
 };
+
+template<typename T>
+class BinaryTree
+{
+    public:
+        explicit BinaryTree() : _size(0),_root(NULL){};
+        ~BinaryTree(){if(_size > 0) remove(_root);};
+        
+        int size() const {return _size;};
+        bool empty() const {return !_root;};
+        BinaryNode<T>* root() const {return _root;};
+        BinaryNode<T>* insertAsRoot();
+        BinaryNode<T>* insertAsLeftChild(BinaryNode<T>* node,T const& elem);
+        BinaryNode<T>* insertAsRightChild(BinaryNode<T>* node,T const& elem);
+        BinaryNode<T>* attachAsLeftChild(BinaryNode<T>* lhs,BinaryNode<T>* rhs);
+        BinaryNode<T>* attachAsRightChild(BinaryNode<T>* lhs,BinaryNode<T>* rhs);
+        int remove(BinaryNode<T>* node);
+        
+
+    protected:
+        int _size;
+        BinaryNode<T>* _root;
+        virtual int updateHeight(BinaryNode<T> const* node);
+        void updateHeightAbove(BinaryNode<T> const* node);
+};
+
 
 
 #endif
