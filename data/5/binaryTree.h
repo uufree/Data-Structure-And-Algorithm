@@ -233,7 +233,7 @@ inline BinaryNode<T>*& FromParentToRef(BinaryNode<T>* node)
 
 template<typename T>
 inline int Height(BinaryNode<T> const* node) 
-{return node ? node->_hight : 0;};
+{return node ? node->_hight : -1;};
 
 /***************************************************/
 /***************************************************/
