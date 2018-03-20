@@ -63,7 +63,7 @@ class Vector
         int findMax(int low_,int high_) const;
 
         int search(T const& elem_) const {return search(elem_,0,_size);};//有序查找
-        int search(T const& elem_,int low_,int high_) const;
+        int search(T const& elem_,int low_,int high_) const;//确定不大于elem的最后一个节点的位置
         
     //写接口    
         T remove(int index_)
@@ -198,18 +198,19 @@ int Vector<T>::findMax(int low_,int high_) const
     return index;
 }
 
+//返回不大于elem的最后一个节点的位置
 template<typename T>
-int Vector<T>::search(T const& elem_,int low_,int high_) const
+int Vector<T>::search(T const& elem,int low,int high) const
 {
-    if(elem_ > _elem[high_-1] || elem_ < _elem[low_])
+    if(elem > _elem[high-1] || elem < _elem[low])
         return -1;
     
     int index;
-    while((index=((low_ + high_)>>1)))
-        if(_elem[index] > elem_)
-            high_ = index;
-        else if(_elem[index] < elem_)
-            low_ = index;
+    while((index=((low + high)>>1)))
+        if(_elem[index] > elem)
+            high = index;
+        else if(_elem[index] < elem)
+            low = index;
         else
             break;
     
