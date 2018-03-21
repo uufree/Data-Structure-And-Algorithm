@@ -44,6 +44,21 @@ bool BTree<T>::remove(T const& elem)
     BTreeNode<T>* node = search(elem);
     if(!elem)
         return false;
+    
+    int pos = node->_key.search(elem);
+    if(node->_child[0])//判断node非叶子(内部节点),然后找到直接前继,交换并删除
+    {
+        BTreeNode<T>* p_node = node->_child[pos+1];
+        while(p_node->_child[0])
+            p_node = p_node->_child[0];
+        node->_key[pos] = node->_key[0];
+        node = p_node;
+        pos = 0;
+    }
+    node->_key.remove(pos);
+    node->_child.remove(pos+1);
+    sloveUndreFlow(node);
+    return true;
 }
 
 //讲真,这个过程我特么没有看懂哎...
@@ -78,4 +93,11 @@ void BTree<T>::sloveOverFlow(BTreeNode<T>* node)
     parent->_child.insert(rank+1,newNode);
     newNode->_parent = parent;
     sloveOverFlow(parent);
+}
+
+//说出来你可能不信...这个过程更难...
+//B-树的这个过程我没有看懂...先留着不写,等写STL的时候详细研究,还需要再修炼哇...
+template<typename T>
+void BTree<T>::sloveUndreFlow(BTreeNode<T>* node)
+{
 }

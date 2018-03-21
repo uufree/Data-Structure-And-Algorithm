@@ -54,42 +54,5 @@ class BTree
         void sloveUndreFlow(BTreeNode<T>* node);//处理下溢
 };
 
-template<typename T>
-BTreeNode<T>* BTree<T>::search(T const& elem)
-{
-    BTreeNode<T>* s_node = _root;
-    _hot = NULL;
-    while(s_node)
-    {
-        int pos = s_node->_key.search(elem);
-        if((pos >= 0) & (elem == s_node->_key[pos]))
-            return s_node;
-        _hot = s_node;
-        s_node = s_node->_child[pos+1];
-    }
-    return NULL;
-}
-
-template<typename T>
-bool BTree<T>::insert(T const& elem)
-{
-    BTreeNode<T>* node = search(elem);
-    if(node)
-        return false;
-    int pos = _hot->_key.search(elem);
-    _hot->_key.insert(pos+1,elem);
-    _hot->_child.insert(pos+2,NULL);
-    _size++;
-    sloveOverFlow(_hot);
-    return true;
-}
-
-template<typename T>
-bool BTree<T>::remove(T const& elem)
-{
-    BTreeNode<T>* node = search(elem);
-    if(!elem)
-        return false;
-}
 
 #endif
