@@ -35,8 +35,8 @@ class Graph
         }
         void BFS(int,int&);//广度优先算法
         void DFS(int,int&);//深度优先算法
-        void BCC(int,int&,Stack<int>&);//(连通域)基于DFS的双连通分量分解算法
-        bool TSort(int,int&,Stack<Tv>*);//(连通域)基于DFS的拓扑排序算法
+        void BCC(int,int&,Stack<int>*);//(连通域)基于DFS的双连通分量分解算法
+        bool TSORT(int,int&,Stack<Tv>*);//(连通域)基于DFS的拓扑排序算法
         template<typename PU> void PFS(int,PU);//(连通域)优先级搜索框架
     public:
     //顶点
