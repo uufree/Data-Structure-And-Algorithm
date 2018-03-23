@@ -8,6 +8,8 @@
 #ifndef _SKIPLIST_H
 #define _SKIPLIST_H
 
+//搞懂了跳表的思路..不过没有实践检测...
+
 #include"../3/list.h"
 #include"../7/binarySearchTree.h"
 
@@ -28,7 +30,7 @@ struct QuadListNode
         _below(below)
     {};
 
-    QuadListNode<T>* insertAsSuccAbove(T const& elem,QuadListNode<T>* node);//以当前的节点为前驱,node为下临
+    QuadListNode<T>* insertAsSuccAbove(T const& elem,QuadListNode<T>* node = NULL);//以当前的节点为前驱,node为下临
 };
 
 template<typename T>
@@ -44,7 +46,7 @@ class QuadList
         bool vaild(QuadListNode<T>* node) const {return node & (node!=_header) & (node!=_tailer);};
 
         T remove(QuadListNode<T>* node);
-        QuadListNode<T>* insertAsSuccAbove(T const& elem,QuadListNode<T>* s_node,QuadListNode<T>* a_node);
+        QuadListNode<T>* insertAsSuccAbove(T const& elem,QuadListNode<T>* s_node = NULL,QuadListNode<T>* a_node = NULL);
         void traverse(void (*)(T&));
         template<typename VST> void traverse(VST&);
 
@@ -55,7 +57,7 @@ class QuadList
 
     protected:
         void init();
-        void clear();
+        int clear();
 };
 
 
