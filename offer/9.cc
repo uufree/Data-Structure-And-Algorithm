@@ -76,6 +76,23 @@ void printMatrixCore(int (*mirtix)[4],int rows,int columns,int startRow,int star
     std::cout << "columns: " << columns << std::endl;
     std::cout << "rowStart: " << startRow << std::endl;
     std::cout << "colStart: " << startCol << std::endl;
+    
+    
+    if(rows == 1)
+    {
+        for(int i=0;i<columns;i++)
+            std::cout << mirtix[startRow][startCol+i] << "    ";
+        std::cout << std::endl;
+        return;
+    }
+
+    if(columns == 1)
+    {
+        for(int i=0;i<rows;i++)
+            std::cout << mirtix[startRow+i][startCol] << "    ";
+        std::cout << std::endl;
+        return;
+    }
 
     for(int i=0;i<columns-1;i++)
         std::cout << mirtix[startRow][startCol+i] << "    ";
@@ -121,8 +138,8 @@ int main(int argc,char** argv)
     nodeArray[7].left = NULL;
     nodeArray[7].right = NULL;
     
-    int array[4][4] = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,16}};
-    printMatrix(array,4,4);
+    int array[3][4] = {{1,2,3,4},{5,6,7,8},{9,10,11,12}};
+    printMatrix(array,3,4);
 
     return 0;
 }
