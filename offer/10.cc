@@ -148,9 +148,6 @@ bool isPostOrder(int* array,int length)
     return isLeft && isRight;
 }
 
-/////////////////////////////////
-//34
-
 int main(int argc,char** argv)
 {
     struct BinaryTreeNode* nodeArray = new BinaryTreeNode[8];

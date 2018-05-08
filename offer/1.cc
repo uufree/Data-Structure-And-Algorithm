@@ -94,7 +94,7 @@ void postOrder_r(BinaryTreeNode* node)
     stack.push(node);
     while(!stack.empty())
     {
-        if(stack.top()->left != node && stack.top()->right != node)
+        if(stack.top()->left != node && stack.top()->right != node)     //stack.top() != node->parent,这块的只要目的是判断当前的node是否有兄弟，有的话，向兄弟一侧偏移；没有的话，说明top是node的父亲，且只有node一个孩子，直接弹出，向top的兄弟一侧偏移
         {
             while((node = stack.top()))
             {
@@ -233,7 +233,10 @@ int main(int argc,char** argv)
     nodeArray[6].right = NULL;
     nodeArray[7].left = NULL;
     nodeArray[7].right = NULL;
-    
+    for(int i=0;i<8;i++)
+        nodeArray[i].value = i;
+
+/*    
     int preArray[8] = {1,2,4,7,3,5,6,8};
     int midArray[8] = {4,7,2,1,5,3,8,6};
     
@@ -245,7 +248,9 @@ int main(int argc,char** argv)
     std::cout << deleteHead() << std::endl;
     std::cout << deleteHead() << std::endl;
     std::cout << deleteHead() << std::endl;
-    
+*/
+    postOrder_r(&nodeArray[0]);
+    std::cout << std::endl;
     return 0;
 }
 
