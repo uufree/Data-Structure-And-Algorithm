@@ -177,7 +177,7 @@ void findPair(int* array,int length,int key)
     while(start < end)
     {
         if(*start + *end < key)
-            ++head;
+            ++start;
         else if(*start + *end == key)
         {
             std::cout << *start << "    " << *end << std::endl;
@@ -186,6 +186,19 @@ void findPair(int* array,int length,int key)
         else
             --end;
     }
+}
+
+void reverse(BinaryTreeNode* node)
+{
+    if(node->left == NULL && node->right == NULL)
+        return;
+    if(node)
+        std::swap(node->left,node->right);
+
+    if(node->left)
+        reverse(node->left);
+    if(node->right)
+        reverse(node->right);
 }
 
 int main(int argc,char** argv)
@@ -213,7 +226,8 @@ int main(int argc,char** argv)
     array[6].left = NULL;
     array[6].right = NULL;
     
-    int arrays[8] = {1,2,3,4,5,6,7,8};
-    findPair(arrays,8,7);
+    reverse(&array[0]);
+    midOrder_r(&array[0]);
+
     return 0;
 }
